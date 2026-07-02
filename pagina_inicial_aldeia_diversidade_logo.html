@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aldeia Diversidade</title>
+    <style>
+        /* Reset e Variáveis */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4a154b;
+            --secondary: #6f42c1;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+            --rainbow-gradient: linear-gradient(90deg, #ff4545, #ffa500, #ffee00, #008000, #0000ff, #7f00ff);
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Faixa da Bandeira LGBTQIA+ */
+        .rainbow-bar {
+            height: 6px;
+            background: var(--rainbow-gradient);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1001;
+        }
+
+        /* Header e Navegação */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 6px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--rainbow-gradient);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary);
+        }
+
+        .btn-donate {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s, background 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(111, 66, 193, 0.2);
+        }
+
+        .btn-donate:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Menu Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-dark);
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f4ff 100%);
+            padding: 100px 20px 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--white);
+            clip-path: ellipse(60% 40px at 50% 40px);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            background: rgba(111, 66, 193, 0.1);
+            color: var(--secondary);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            color: var(--primary);
+            line-height: 1.2;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-dark);
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid var(--text-dark);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--text-dark);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* Seções Gerais */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--rainbow-gradient);
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Missão, Visão e Valores */
+        .mvv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .mvv-card {
+            background: var(--bg-light);
+            padding: 40px 30px;
+            border-radius: 16px;
+            border-left: 5px solid var(--secondary);
+            transition: transform 0.3s;
+        }
+
+        .mvv-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mvv-card h3 {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Destaques / Ações Recentes */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .action-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border: 1px solid #edf2f7;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .action-badge {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .action-content {
+            padding: 25px;
+        }
+
+        .action-content h3 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .action-content p {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Banner de Transparência Curta */
+        .transparency-banner {
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(74, 21, 75, 0.15);
+        }
+
+        .transparency-banner h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .transparency-banner p {
+            color: #e2e8f0;
+            max-width: 600px;
+            margin: 0 auto 25px auto;
+        }
+
+        /* Footer / Rodapé */
+        footer {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 60px 20px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            border-bottom: 1px solid #2d3748;
+            padding-bottom: 40px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            color: var(--white);
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            color: #a0aec0;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #a0aec0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #718096;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* Botão do WhatsApp Flutuante */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            text-decoration: none;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal do PIX */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 35px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: modalFade 0.3s ease-out;
+        }
+
+        @keyframes modalFade {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .pix-key-box {
+            background: var(--bg-light);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed var(--secondary);
+            font-weight: 600;
+            margin: 20px 0;
+            word-break: break-all;
+            color: var(--primary);
+        }
+
+        .fake-qr {
+            width: 180px;
+            height: 180px;
+            background: #e2e8f0;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 14px;
+            border: 2px dashed #cbd5e0;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+                gap: 15px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .transparency-banner {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="rainbow-bar"></div>
+
+    <!-- Cabeçalho / Navegação -->
+    <header>
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <img src="1000537707.webp" alt="Aldeia Diversidade" style="height:70px;width:auto;">
+        </a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="#" class="nav-link">Início</a></li>
+            <li><a href="#" class="nav-link">Quem Somos</a></li>
+            <li><a href="#" class="nav-link">Projetos</a></li>
+            <li><a href="#" class="nav-link">Notícias</a></li>
+            <li><a href="#" class="nav-link">Transparência</a></li>
+            <li><a href="#" class="nav-link">Contato</a></li>
+            <li><button class="btn-donate" onclick="openPixModal()">Doar via PIX</button></li>
+        </ul>
+    </div>
+    </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-tag">Acolhimento, Cidadania e Direitos Humanos</span>
+            <h1>Promovendo a inclusão, o respeito à diversidade e a solidariedade</h1>
+            <p>Somos uma Organização da Sociedade Civil (ONG) dedicada a defender os direitos da população LGBTQIA+ e a estender a mão para quem mais precisa através de ações de assistência social.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">Conheça Nossos Projetos</a>
+                <a href="#" class="btn-secondary" onclick="openPixModal()">Quero Apoiar a ONG</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nossa Missão -->
+    <section>
+        <div class="section-header">
+            <h2>Nossos Pilares</h2>
+            <p>O que nos move diariamente na transformação social e defesa de direitos.</p>
+        </div>
+        <div class="mvv-grid">
+            <div class="mvv-card">
+                <h3>Acolhimento & Respeito</h3>
+                <p>Oferecer suporte humanizado e seguro para a população LGBTQIA+ e indivíduos em situação de extrema vulnerabilidade social.</p>
+            </div>
+            <div class="mvv-card">
+                <h3>Garantia de Direitos</h3>
+                <p>Combater ativamente a LGBTfobia e todas as formas de preconceito, promovendo a cidadania ativa e a justiça social.</p>
+            </div>
+            <div class="mvv-card">
+                <h3>Impacto Solidário</h3>
+                <p>Mobilizar campanhas de arrecadação de alimentos, agasalhos e quentinhas para combater a fome e o desamparo.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ações e Campanhas em Destaque -->
+    <section style="background: var(--bg-light); max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="section-header">
+                <h2>Ações Recentes</h2>
+                <p>Veja o impacto direto das nossas últimas mobilizações comunitárias.</p>
+            </div>
+            <div class="actions-grid">
+                <!-- Card 1 -->
+                <div class="action-card">
+                    <div class="action-content">
+                        <span class="action-badge">Assistência Social</span>
+                        <h3>Distribuição de Quentinhas</h3>
+                        <p>Mais de 100 refeições preparadas com carinho e distribuídas para pessoas em situação de rua na Região dos Lagos.</p>
+                        <a href="#" class="nav-link" style="font-weight: 600; font-size: 14px;">Saber mais &rarr;</a>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="action-card">
+                    <div class="action-content">
+                        <span class="action-badge">Campanha Sazonal</span>
+                        <h3>Campanha do Agasalho</h3>
+                        <p>Mobilização solidária realizada com sucesso durante o Mês do Orgulho LGBTQIA+, aquecendo dezenas de vidas.</p>
+                        <a href="#" class="nav-link" style="font-weight: 600; font-size: 14px;">Saber mais &rarr;</a>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="action-card">
+                    <div class="action-content">
+                        <span class="action-badge">Conscientização</span>
+                        <h3>Materiais Educativos</h3>
+                        <p>Produção e divulgação de materiais focados no Dia Internacional do Orgulho LGBTQIA+ para redes sociais e debates.</p>
+                        <a href="#" class="nav-link" style="font-weight: 600; font-size: 14px;">Saber mais &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transparência Rápida -->
+    <section>
+        <div class="transparency-banner">
+            <h3>Compromisso com a Transparência</h3>
+            <p>A Aldeia Diversidade preza pela clareza em todas as suas ações. Nossos relatórios de prestação de contas, estatutos e registros institucionais estão permanentemente abertos ao público.</p>
+            <p style="font-size: 15px; font-weight: 500;">CNPJ: 14.601.477/0001-37</p>
+            <a href="#" class="btn-donate" style="background: var(--white); color: var(--primary); margin-top: 10px; display: inline-block;">Acessar Portal da Transparência</a>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Aldeia Diversidade</h4>
+                <p>Organização da Sociedade Civil (ONG) atuando firmemente pelos direitos humanos e assistência social no Brasil.</p>
+                <p style="margin-top: 15px; font-weight: bold;">CNPJ: 14.601.477/0001-37</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Úteis</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Quem Somos</a></li>
+                    <li><a href="#">Nossos Projetos</a></li>
+                    <li><a href="#">Prestação de Contas</a></li>
+                    <li><a href="#">Fale Conosco</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Canais de Comunicação</h4>
+                <p>Email: aldeiadivercidade@gmail.com </p>
+                <p>Instagram: @aldeiadiversidaderj</p>
+                <p>Facebook: /aldeiadiversidaderj</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aldeia Diversidade. Todos os direitos reservados. Linguagem Inclusiva e Respeitosa.</p>
+            <p>Desenvolvido com Orgulho</p>
+        </div>
+    </footer>
+
+    <!-- Botão WhatsApp Flutuante -->
+    <a href="https://wa.me/5522992434574" class="whatsapp-float" target="_blank" title="Fale Conosco no WhatsApp">
+        <svg style="width:32px;height:32px" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12.04 2C6.5 2 2 6.5 2 12.04c0 1.92.53 3.8 1.56 5.43L2 22l4.66-1.23c1.55.85 3.3 1.3 5.1 1.3 5.54 0 10.04-4.5 10.04-10.04C21.8 6.5 17.32 2 12.04 2m.03 16.51c-1.63 0-3.23-.44-4.63-1.26l-.33-.2-2.75.72.74-2.69-.22-.35c-.9-1.43-1.38-3.09-1.38-4.79 0-4.68 3.82-8.5 8.5-8.5 4.69 0 8.5 3.82 8.5 8.5 0 4.69-3.81 8.5-8.43 8.5m4.66-6.38c-.26-.13-1.51-.74-1.74-.83-.23-.08-.4-.12-.57.13-.17.25-.66.83-.81.99-.15.17-.3.19-.56.06-.26-.13-1.1-.41-2.1-1.3-.78-.7-1.3-1.56-1.46-1.82-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.08-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.88-.2-.5-.4-.43-.57-.44-.14 0-.31-.02-.48-.02-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.11 0 1.24.9 2.45 1.02 2.61.12.17 1.77 2.7 4.29 3.8 2.52 1.09 2.52.73 2.97.69.45-.04 1.51-.62 1.73-1.21.21-.58.21-1.09.15-1.2-.06-.11-.22-.17-.49-.3z"/>
+        </svg>
+    </a>
+
+    <!-- Modal Estruturado do PIX -->
+    <div class="modal" id="pixModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePixModal()">&times;</span>
+            <h3 style="color: var(--primary); margin-bottom: 10px;">Faça uma Doação</h3>
+            <p style="font-size: 14px; color: var(--text-light);">Sua solidariedade mantém vivos os projetos da Aldeia Diversidade.</p>
+            
+            <p style="font-size: 14px; font-weight: 500;">Chave Celular da ONG: 22 99243-4574</p>
+            <div class="pix-key-box" id="pix-key"<22 99243-4574</div>
+            
+            <button class="btn-donate" style="width: 100%; border-radius: 8px;" onclick="copyPixKey()">22 99243-4574</button>
+        </div>
+    </div>
+
+    <script>
+        // Menu Mobile Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Funções do Modal
+        function openPixModal() {
+            document.getElementById('pixModal').style.display = 'flex';
+        }
+
+        function closePixModal() {
+            document.getElementById('pixModal').style.display = 'none';
+        }
+
+        // Fechar se clicar fora do conteúdo
+        window.onclick = function(event) {
+            const modal = document.getElementById('pixModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Copiar Chave PIX
+        function copyPixKey() {
+            const keyText = document.getElementById('pix-key').innerText;
+            navigator.clipboard.writeText(keyText).then(() => {
+                alert('Chave Celular copiada com sucesso!');
+            }).catch(err => {
+                alert('Erro ao copiar chave: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>
